@@ -7,10 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Installing Azure CLI
+        shell: bash
+        run: |
+          echo "::debug::Installing Azure CLI"
+          if [ -x "$(command -v az)" ]; then
+            echo "::debug::Azure CLI is already installed"
+          else
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          fi
+
       - name: Log in with Azure
         uses: azure/login@v1
         with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Azure CLI script
         uses: azure/CLI@v1
